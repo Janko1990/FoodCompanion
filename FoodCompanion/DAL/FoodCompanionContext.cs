@@ -12,20 +12,23 @@ namespace DAL
 	{
 		string connectionString;
 
-		internal FoodCompanionContext( string connectionString )
+		public FoodCompanionContext( string connectionString )
 			: base( "name=FoodCompanionEntities" )
 		{
 			base.Database.Connection.ConnectionString = connectionString;
 			this.connectionString = connectionString;
 		}
 
-		protected override void OnModelCreating( DbModelBuilder modelBuilder )
+        protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{
 			base.OnModelCreating( modelBuilder );
-		}
 
-		internal DbSet<Meal> Meal { get; set; }
-		internal DbSet<MealCategory> MealCategory { get; set; }
+            modelBuilder.Configurations.Add(new MealProductConfiguration());
+            modelBuilder.Configurations.Add(new ShopProductConfiguration());
+        }
+
+        public DbSet<Meal> Meal { get; set; }
+        public DbSet<MealCategory> MealCategory { get; set; }
 		internal DbSet<MealProduct> MealProduct { get; set; }
 		internal DbSet<Product> Product { get; set; }
 		internal DbSet<ProductCategory> ProductCategory { get; set; }
